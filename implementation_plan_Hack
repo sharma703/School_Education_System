@@ -1,0 +1,148 @@
+# School Education Platform — Implementation Plan
+
+Build a premium, highly interactive School Education website using **Next.js 14 (App Router)**, **Tailwind CSS**, and **Framer Motion**.
+
+## Proposed Changes
+
+### Project Scaffold
+
+#### [NEW] Next.js project at `c:\Users\Nikhil\OneDrive\Desktop\Hack`
+
+```bash
+npx -y create-next-app@latest ./ --tailwind --eslint --app --src-dir --no-turbopack --import-alias "@/*" --yes
+npm install framer-motion
+```
+
+#### [MODIFY] [tailwind.config.ts](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/tailwind.config.ts)
+
+Extend Tailwind theme with the custom palette:
+
+| Token | Color |
+|---|---|
+| `saffron` | `#FF7A00` |
+| `royal` | `#1E3A8A` |
+| `emerald-accent` | `#10B981` |
+| `soft-white` | `#F8FAFC` |
+| `charcoal` | `#1F2937` |
+
+Add `fontFamily` for Inter (Google Font).
+
+#### [MODIFY] [globals.css](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/app/globals.css)
+
+Custom scrollbar, smooth scroll, glassmorphism utilities, keyframe animations (float, pulse, counter-spin, fade-in).
+
+---
+
+### Layout & Navigation
+
+#### [MODIFY] [layout.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/app/layout.tsx)
+
+Root layout with Inter font, SEO metadata, and `<Navbar />` + `<Footer />`.
+
+#### [NEW] [Navbar.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/Navbar.tsx)
+
+- Sticky transparent → solid on scroll (backdrop-blur glassmorphism).
+- Desktop: horizontal nav links with animated underline hover.
+- Mobile: hamburger menu with slide-in drawer + Framer Motion.
+- Smooth scroll via `scrollIntoView`.
+
+#### [NEW] [Footer.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/Footer.tsx)
+
+4-column footer: About · Quick Links · Contact · Newsletter. Social icons, copyright.
+
+#### [NEW] [LoadingScreen.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/LoadingScreen.tsx)
+
+Full-screen animated loader that fades out on page load.
+
+---
+
+### Hero Section
+
+#### [NEW] [Hero.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/Hero.tsx)
+
+- Full-viewport with looping background video (Pexels/Unsplash education video URL).
+- Dark gradient overlay for contrast.
+- Staggered Framer Motion text reveal: *"Transforming School Education Through AI & Innovation"*.
+- Two animated CTA buttons (saffron + royal blue).
+- 4 floating stat cards (students, teachers, schools, success rate) with counter animation using `useInView`.
+
+---
+
+### Content Sections (10 sections)
+
+Each section uses a shared `SectionWrapper` component providing:
+- Consistent padding/max-width
+- `whileInView` Framer Motion fade-up entrance
+- Alternating background tints
+
+#### [NEW] [SectionWrapper.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/SectionWrapper.tsx)
+
+#### [NEW] [AboutProblem.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/AboutProblem.tsx)
+
+Infographic-style stat cards for education challenges (dropout rates, teacher shortage, digital divide). SVG icons, staggered animations.
+
+#### [NEW] [StudentLearning.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/StudentLearning.tsx)
+
+3-column feature grid: Personalized AI, Smart Assessments, Interactive Journeys. Each card has icon, title, description, hover lift.
+
+#### [NEW] [TeacherSupport.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/TeacherSupport.tsx)
+
+Left: feature list with animated reveal. Right: interactive dashboard mockup (styled div with charts via CSS).
+
+#### [NEW] [InclusiveEducation.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/InclusiveEducation.tsx)
+
+Accessibility, voice support, regional languages. Cards with icons and animated entrance.
+
+#### [NEW] [SchoolDashboard.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/SchoolDashboard.tsx)
+
+Mock analytics dashboard with animated counters, progress bars, and CSS-based charts.
+
+#### [NEW] [Features.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/Features.tsx)
+
+6-card grid. Each card: icon, title, description. Hover: scale + shadow lift + border glow.
+
+#### [NEW] [Impact.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/Impact.tsx)
+
+Animated counters (students impacted, schools, states). Before vs After comparison cards.
+
+#### [NEW] [Testimonials.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/Testimonials.tsx)
+
+Auto-rotating carousel with quote, name, role, avatar image. Navigation dots.
+
+#### [NEW] [Gallery.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/Gallery.tsx)
+
+Grid of images/videos. Click-to-open lightbox modal with Framer Motion `AnimatePresence`.
+
+#### [NEW] [Contact.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/components/sections/Contact.tsx)
+
+Two-column: form (name, email, subject, message) + info card (address, phone, email, embedded Google Maps iframe). Social links.
+
+---
+
+### Main Page
+
+#### [MODIFY] [page.tsx](file:///c:/Users/Nikhil/OneDrive/Desktop/Hack/src/app/page.tsx)
+
+Compose all sections in order: `Hero → AboutProblem → StudentLearning → TeacherSupport → InclusiveEducation → SchoolDashboard → Features → Impact → Testimonials → Gallery → Contact`.
+
+---
+
+## Verification Plan
+
+### Browser Testing
+
+1. Run `npm run dev` and open `http://localhost:3000` in the browser.
+2. Verify hero video plays, text animates, stat counters animate on scroll.
+3. Scroll through all sections — confirm fade-in animations trigger.
+4. Resize browser to mobile width — confirm hamburger menu works, layout stacks.
+5. Click nav links — confirm smooth scroll to each section.
+6. Test contact form validation (empty submit should show errors).
+7. Confirm footer renders correctly with all columns.
+
+### Build Verification
+
+```bash
+npm run build
+```
+
+Confirm zero build errors.
